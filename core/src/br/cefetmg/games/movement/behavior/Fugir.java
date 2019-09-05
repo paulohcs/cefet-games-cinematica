@@ -4,6 +4,8 @@ import br.cefetmg.games.movement.AlgoritmoMovimentacao;
 import br.cefetmg.games.movement.Direcionamento;
 import br.cefetmg.games.movement.Pose;
 import com.badlogic.gdx.Input.Keys;
+import static com.badlogic.gdx.math.MathUtils.atan2;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Guia o agente de forma a fugir na direção contrária ao alvo.
@@ -29,6 +31,16 @@ public class Fugir extends AlgoritmoMovimentacao {
         // super.alvo já contém a posição do alvo
         // agente (parâmetro) é a pose do agente que estamos guiando
         // ...
+        
+        output.velocidade = new Vector3 (agente.posicao.x - super.alvo.getObjetivo().x, agente.posicao.y - super.alvo.getObjetivo().y, agente.posicao.z - super.alvo.getObjetivo().z);
+        
+        output.velocidade.nor();
+        output.velocidade.scl(super.maxVelocidade);
+        
+        agente.orientacao = atan2(output.velocidade.y, output.velocidade.x);
+        
+        output.rotacao = 0;
+        
         return output;
     }
 
